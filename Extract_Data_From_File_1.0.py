@@ -29,11 +29,13 @@ def get_all_data():
         get_text("div.wrap > h1", column2, soup)
         #additional things you want in additional columns
         openedfile.close()
-    write_to_excel("test.csv", "Bolded Headers", "Hello World")
+    write_to_excel("test.csv")
 
-def write_to_excel(filename, col1name, col2name, col3name=None, col4name=None, col5name=None, col6name=None):
-    resultsdict = {"Headers" : column1, "Hello World" : column2}
+def write_to_excel(filename):
+    resultsdict = {"Headers" : column1, "Hello World" : column2, "BLANK1": column3, "BLANK2":column4, "BLANK3":column5, "BLANK4":column5, "BLANK5":column6}
     df1 = pd.DataFrame.from_dict(resultsdict, orient="index")
-    df1.to_csv(filename, mode="a", index=False, encoding="utf-8-sig")
+    df2 = pd.DataFrame
+    df2 = df1.transpose()
+    df2.to_csv(filename, mode="a", index=False, encoding="utf-8-sig")
 
 get_all_data()
