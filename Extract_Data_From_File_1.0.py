@@ -3,7 +3,6 @@ import soupsieve as sv
 import pandas as pd
 import chardet
 
-#note: you can just copy/paste from the "project" view of PyCharm into your excel string maker workbook
 target_files = ["FILES"]
 column1 = []
 column2 = []
