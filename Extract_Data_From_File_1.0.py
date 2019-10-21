@@ -1,8 +1,10 @@
 from bs4 import BeautifulSoup
 import soupsieve as sv
 import pandas as pd
+import chardet
 
-target_files = ["GitHub Guide 0 - 15-October-2019--22.34.html"]
+#note: you can just copy/paste from the "project" view of PyCharm into your excel string maker workbook
+target_files = ["FILES"]
 column1 = []
 column2 = []
 column3 = []
@@ -21,18 +23,27 @@ def get_text(sv_target, targetlist, soup):
     for tag2 in key_tags2:
         targetlist.append(tag2.text)
 
+def find_encoding(filename):
+    readfile = open(filename, 'rb').read()
+    result = chardet.detect(readfile)
+    charenc = result['encoding']
+    return charenc
+
 def get_all_data():
+    loops = 0
     for thing in target_files:
-        openedfile = open(thing, errors="surrogateescape") #this error parameter made my programs work together
+        loops +=1
+        print(loops)
+        myencoding = find_encoding(thing)
+        openedfile = open(thing, encoding=myencoding)
         soup = BeautifulSoup(openedfile, "html.parser")
-        get_text("div > h4", column1, soup)
-        get_text("div.wrap > h1", column2, soup)
+        get_text("div > h1", column1, soup) #title
         #additional things you want in additional columns
         openedfile.close()
-    write_to_excel("test.csv")
+    write_to_excel("NAME OF CSV.csv")
 
 def write_to_excel(filename):
-    resultsdict = {"Headers" : column1, "Hello World" : column2, "BLANK1": column3, "BLANK2":column4, "BLANK3":column5, "BLANK4":column5, "BLANK5":column6}
+    resultsdict = {"Header1": column1, "Header2": column2, "HEader3": column3, "BLANK2": column4, "BLANK3": column5, "BLANK4": column5, "BLANK5": column6}
     df1 = pd.DataFrame.from_dict(resultsdict, orient="index")
     df2 = pd.DataFrame
     df2 = df1.transpose()
